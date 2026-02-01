@@ -237,7 +237,7 @@ const GITHUB_USERNAME = 'SuchithNetha';
 
 const projectConfig = {
     // Repos to exclude from portfolio
-    excludeRepos: ['REcxse', 'java', 'NextRole'],
+    excludeRepos: ['REcxse', 'java', 'NextRole', 'portfolio'],
 
     // Featured repos (will be larger and highlighted)
     featuredRepos: ['voiceagent'],
