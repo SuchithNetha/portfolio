@@ -243,7 +243,7 @@ const projectConfig = {
     collaboratorRepos: ['kjrgit-dev/SprintSensev1'],
 
     // Featured repos (will be larger and highlighted)
-    featuredRepos: ['voiceagent'],
+    featuredRepos: ['voiceagent', 'SprintSensev1'],
 
     // Custom descriptions (override GitHub description)
     customDescriptions: {
@@ -311,12 +311,11 @@ async function fetchGitHubProjects() {
         );
 
         // Combine and Filter
-        const allRepos = [...repos, ...extraRepos];
-
-        // Filter and transform repos
-        const projects = allRepos
-            .filter(repo => !projectConfig.excludeRepos.includes(repo.name))
-            .filter(repo => !repo.fork) // Exclude forks
+        const userProjects = repos.filter(repo => !repo.fork);
+        const projects = [...userProjects, ...extraRepos]
+            .filter(repo => !projectConfig.excludeRepos.some(excluded =>
+                excluded.toLowerCase() === repo.name.toLowerCase()
+            ))
             .map(repo => ({
                 id: repo.name,
                 title: escapeHTML(formatRepoName(repo.name)),
