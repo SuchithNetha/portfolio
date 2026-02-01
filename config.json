@@ -1,6 +1,6 @@
 {
     "name": "Suchith Kurapati",
-    "role": "Full Stack Developer",
+    "role": "AI Developer",
     "tagline": "Building intelligent applications with AI & Voice Technology",
     "email": "suchithkurapati2005@gmail.com",
     "github": "SuchithNetha",
@@ -25,7 +25,7 @@
             "type": "work",
             "icon": "laptop-code",
             "date": "2025",
-            "title": "Full Stack Developer",
+            "title": "AI/ML Developer",
             "subtitle": "Web Applications & ML Systems",
             "description": "Built full-stack applications including expense trackers with AI insights, medical diagnosis ML pipelines with ZenML/MLflow, and trading portfolio management tools.",
             "tags": [
