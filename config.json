@@ -2,10 +2,9 @@
     "name": "Suchith Kurapati",
     "role": "Full Stack Developer",
     "tagline": "Building intelligent applications with AI & Voice Technology",
-    "email": "suchithnetha@gmail.com",
+    "email": "suchithkurapati2005@gmail.com",
     "github": "SuchithNetha",
     "linkedin": "suchith-kurapati-29151b249",
-    
     "experience": [
         {
             "type": "work",
@@ -14,7 +13,13 @@
             "title": "AI/ML Developer",
             "subtitle": "Building Voice AI Agents",
             "description": "Developing production-ready voice-enabled AI systems using LangGraph, Twilio, and modern LLM technologies. Creating intelligent conversational agents for real estate applications.",
-            "tags": ["Python", "LangGraph", "FastAPI", "Twilio", "Redis"]
+            "tags": [
+                "Python",
+                "LangGraph",
+                "FastAPI",
+                "Twilio",
+                "Redis"
+            ]
         },
         {
             "type": "work",
@@ -23,7 +28,13 @@
             "title": "Full Stack Developer",
             "subtitle": "Web Applications & ML Systems",
             "description": "Built full-stack applications including expense trackers with AI insights, medical diagnosis ML pipelines with ZenML/MLflow, and trading portfolio management tools.",
-            "tags": ["React", "Node.js", "MongoDB", "Scikit-learn", "MLflow"]
+            "tags": [
+                "React",
+                "Node.js",
+                "MongoDB",
+                "Scikit-learn",
+                "MLflow"
+            ]
         },
         {
             "type": "education",
@@ -32,26 +43,72 @@
             "title": "Started Coding Journey",
             "subtitle": "Learning & Building",
             "description": "Began learning programming with Java and Python. Started building projects and exploring web development, databases, and software engineering principles.",
-            "tags": ["Java", "Python", "Git", "SQL"]
+            "tags": [
+                "Java",
+                "Python",
+                "Git",
+                "SQL"
+            ]
         }
     ],
-    
     "skills": {
-        "Languages": ["Python", "JavaScript", "Java", "SQL"],
-        "AI & ML": ["LangGraph", "Groq", "Gemini", "Scikit-learn", "MLflow", "ZenML"],
-        "Backend": ["FastAPI", "Express.js", "Node.js", "Redis", "MongoDB"],
-        "Frontend": ["React", "HTML5", "CSS3", "Material UI", "Streamlit"],
-        "Voice & Telephony": ["Twilio", "Sarvam AI", "WebSockets", "VAD"],
-        "DevOps & Tools": ["Git", "Docker", "ngrok", "Render"]
+        "Languages": [
+            "Python",
+            "JavaScript",
+            "Java",
+            "SQL"
+        ],
+        "AI & ML": [
+            "LangGraph",
+            "Groq",
+            "Gemini",
+            "Scikit-learn",
+            "MLflow",
+            "ZenML"
+        ],
+        "Backend": [
+            "FastAPI",
+            "Express.js",
+            "Node.js",
+            "Redis",
+            "MongoDB"
+        ],
+        "Frontend": [
+            "React",
+            "HTML5",
+            "CSS3",
+            "Material UI",
+            "Streamlit"
+        ],
+        "Voice & Telephony": [
+            "Twilio",
+            "Sarvam AI",
+            "WebSockets",
+            "VAD"
+        ],
+        "DevOps & Tools": [
+            "Git",
+            "Docker",
+            "ngrok",
+            "Render"
+        ]
     },
-    
     "about": {
         "lead": "I'm a software developer focused on building <span class=\"highlight\">intelligent applications</span> that make a real difference. My journey in tech began with curiosity and has evolved into a passion for creating <span class=\"highlight\">AI-powered solutions</span>.",
         "description": "From voice-enabled AI agents to machine learning pipelines, I love tackling complex challenges and turning them into elegant, user-friendly products.",
         "highlights": [
-            {"icon": "microphone-alt", "text": "Voice AI Specialist"},
-            {"icon": "brain", "text": "ML Enthusiast"},
-            {"icon": "code", "text": "Full-Stack Developer"}
+            {
+                "icon": "microphone-alt",
+                "text": "Voice AI Specialist"
+            },
+            {
+                "icon": "brain",
+                "text": "ML Enthusiast"
+            },
+            {
+                "icon": "code",
+                "text": "Full-Stack Developer"
+            }
         ]
     }
 }
