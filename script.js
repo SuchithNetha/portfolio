@@ -298,49 +298,70 @@ async function fetchGitHubProjects() {
     `;
 
     try {
-        const [reposResponse, ...extraResponses] = await Promise.all([
-            fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=30`),
-            ...(projectConfig.collaboratorRepos || []).map(repo => fetch(`https://api.github.com/repos/${repo}`))
-        ]);
+        const repoUrls = [
+            `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=30`,
+            ...(projectConfig.collaboratorRepos || []).map(repo => `https://api.github.com/repos/${repo}`)
+        ];
 
-        if (!reposResponse.ok) throw new Error('Failed to fetch user repos');
-
-        const repos = await reposResponse.json();
-        const extraRepos = await Promise.all(
-            extraResponses.filter(r => r.ok).map(r => r.json())
+        const responses = await Promise.all(
+            repoUrls.map(url => fetch(url).catch(err => ({ ok: false, error: err })))
         );
 
-        // Combine and Filter
-        const userProjects = repos.filter(repo => !repo.fork);
-        const projects = [...userProjects, ...extraRepos]
-            .filter(repo => !projectConfig.excludeRepos.some(excluded =>
-                excluded.toLowerCase() === repo.name.toLowerCase()
-            ))
-            .map(repo => ({
-                id: repo.name,
-                title: escapeHTML(formatRepoName(repo.name)),
-                description: escapeHTML(projectConfig.customDescriptions[repo.name] || repo.description || 'No description available.'),
-                tags: [repo.language].filter(Boolean).map(escapeHTML),
-                tech: (projectConfig.customTech[repo.name] || [repo.language].filter(Boolean)).map(escapeHTML),
-                date: formatDate(repo.pushed_at),
-                featured: projectConfig.featuredRepos.includes(repo.name),
-                link: repo.html_url,
-                features: projectConfig.customFeatures[repo.name] || null,
-                visual: projectConfig.customVisuals[repo.name] || getDefaultVisual(repo.language),
-                stars: repo.stargazers_count,
-                language: repo.language
-            }))
+        // First response is the user repos array
+        const userReposRes = responses[0];
+        let allRepos = [];
+
+        if (userReposRes.ok) {
+            const repos = await userReposRes.json();
+            if (Array.isArray(repos)) {
+                allRepos = repos.filter(repo => !repo.fork);
+            }
+        }
+
+        // Other responses are individual collaborator repos
+        const extraRepos = await Promise.all(
+            responses.slice(1)
+                .filter(r => r.ok)
+                .map(r => r.json().catch(() => null))
+        );
+
+        allRepos = [...allRepos, ...extraRepos.filter(r => r && r.name)];
+
+        if (allRepos.length === 0) {
+            throw new Error('No repositories found or API rate limit exceeded');
+        }
+
+        const projects = allRepos
+            .filter(repo => {
+                const isExcluded = projectConfig.excludeRepos.some(excluded =>
+                    excluded.toLowerCase() === (repo.name || '').toLowerCase()
+                );
+                return !isExcluded;
+            })
+            .map(repo => {
+                const repoName = repo.name || 'Unknown Project';
+                return {
+                    id: repoName,
+                    title: escapeHTML(formatRepoName(repoName)),
+                    description: escapeHTML(projectConfig.customDescriptions[repoName] || repo.description || 'No description available.'),
+                    tags: [repo.language].filter(Boolean).map(escapeHTML),
+                    tech: (projectConfig.customTech[repoName] || [repo.language].filter(Boolean)).map(escapeHTML),
+                    date: formatDate(repo.pushed_at || new Date().toISOString()),
+                    featured: projectConfig.featuredRepos.some(f => f.toLowerCase() === repoName.toLowerCase()),
+                    link: repo.html_url || `https://github.com/${GITHUB_USERNAME}/${repoName}`,
+                    features: projectConfig.customFeatures[repoName] || null,
+                    visual: projectConfig.customVisuals[repoName] || getDefaultVisual(repo.language),
+                    stars: repo.stargazers_count || 0,
+                    language: repo.language
+                };
+            })
             .sort((a, b) => {
-                // Featured first, then by date
                 if (a.featured && !b.featured) return -1;
                 if (!a.featured && b.featured) return 1;
                 return 0;
             });
 
-        // Update project count in stats
         updateProjectCount(projects.length);
-
-        // Render projects
         renderProjectCards(projects);
 
     } catch (error) {
