@@ -1,2 +1,15 @@
 # Local Netlify folder
-.netlify
+.netlify/
+.ntli/
+
+# Build artifacts
+dist/
+build/
+node_modules/
+
+# OS/Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

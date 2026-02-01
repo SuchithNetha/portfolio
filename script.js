@@ -319,10 +319,10 @@ async function fetchGitHubProjects() {
             .filter(repo => !repo.fork) // Exclude forks
             .map(repo => ({
                 id: repo.name,
-                title: formatRepoName(repo.name),
-                description: projectConfig.customDescriptions[repo.name] || repo.description || 'No description available.',
-                tags: [repo.language].filter(Boolean),
-                tech: projectConfig.customTech[repo.name] || [repo.language].filter(Boolean),
+                title: escapeHTML(formatRepoName(repo.name)),
+                description: escapeHTML(projectConfig.customDescriptions[repo.name] || repo.description || 'No description available.'),
+                tags: [repo.language].filter(Boolean).map(escapeHTML),
+                tech: (projectConfig.customTech[repo.name] || [repo.language].filter(Boolean)).map(escapeHTML),
                 date: formatDate(repo.pushed_at),
                 featured: projectConfig.featuredRepos.includes(repo.name),
                 link: repo.html_url,
@@ -371,6 +371,13 @@ function formatDate(dateString) {
     const date = new Date(dateString);
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return `${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+function escapeHTML(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
 }
 
 function getDefaultVisual(language) {
@@ -648,6 +655,12 @@ async function initGitHubStats() {
 
         const user = await userResponse.json();
         const repos = await reposResponse.json();
+
+        // Update profile images dynamically
+        const profileImages = document.querySelectorAll('.avatar-image, .card-avatar img');
+        profileImages.forEach(img => {
+            img.src = user.avatar_url;
+        });
 
         // Calculate stats
         const totalRepos = user.public_repos;
