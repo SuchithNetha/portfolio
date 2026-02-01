@@ -239,6 +239,9 @@ const projectConfig = {
     // Repos to exclude from portfolio
     excludeRepos: ['REcxse', 'java', 'NextRole', 'portfolio'],
 
+    // Repos you are a collaborator on (format: 'owner/repo')
+    collaboratorRepos: ['kjrgit-dev/SprintSensev1'],
+
     // Featured repos (will be larger and highlighted)
     featuredRepos: ['voiceagent'],
 
@@ -247,7 +250,8 @@ const projectConfig = {
         'voiceagent': 'A cloud-first voice-enabled AI agent that handles real estate inquiries over phone calls. Features speech recognition, natural conversation with LLM, semantic property search, and persistent user memory.',
         'Ai_diagnostic_system': 'Production-grade ML pipeline for preliminary medical diagnosis based on patient symptoms. Features robust MLOps practices with experiment tracking and model deployment.',
         'expense_tracker': 'Full-stack expense tracking application with authentication, budgeting, category management, and AI-powered spending insights.',
-        'TradeTrack': 'A trading portfolio tracker for monitoring investments and analyzing market performance.'
+        'TradeTrack': 'A trading portfolio tracker for monitoring investments and analyzing market performance.',
+        'SprintSensev1': 'An AI-powered project management tool that helps teams track sprints, analyze productivity, and optimize workflows with intelligent insights.'
     },
 
     // Custom technologies for repos
@@ -255,7 +259,8 @@ const projectConfig = {
         'voiceagent': ['FastAPI', 'LangGraph', 'Groq', 'Twilio', 'Redis'],
         'Ai_diagnostic_system': ['ZenML', 'MLflow', 'Streamlit', 'Scikit-learn'],
         'expense_tracker': ['React', 'Express', 'MongoDB', 'Material UI'],
-        'TradeTrack': ['Python', 'Data Analysis']
+        'TradeTrack': ['Python', 'Data Analysis'],
+        'SprintSensev1': ['React', 'Node.js', 'PostgreSQL', 'AI']
     },
 
     // Custom features for featured repos
@@ -293,16 +298,23 @@ async function fetchGitHubProjects() {
     `;
 
     try {
-        const response = await fetch(
-            `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=30`
+        const [reposResponse, ...extraResponses] = await Promise.all([
+            fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=30`),
+            ...(projectConfig.collaboratorRepos || []).map(repo => fetch(`https://api.github.com/repos/${repo}`))
+        ]);
+
+        if (!reposResponse.ok) throw new Error('Failed to fetch user repos');
+
+        const repos = await reposResponse.json();
+        const extraRepos = await Promise.all(
+            extraResponses.filter(r => r.ok).map(r => r.json())
         );
 
-        if (!response.ok) throw new Error('Failed to fetch');
-
-        const repos = await response.json();
+        // Combine and Filter
+        const allRepos = [...repos, ...extraRepos];
 
         // Filter and transform repos
-        const projects = repos
+        const projects = allRepos
             .filter(repo => !projectConfig.excludeRepos.includes(repo.name))
             .filter(repo => !repo.fork) // Exclude forks
             .map(repo => ({
