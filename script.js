@@ -87,7 +87,7 @@ function initTypingEffect() {
         'Voice AI Agents',
         'ML Pipelines',
         'Web Applications',
-        'Full-Stack Solutions',
+        'Generative AI Solutions',
         'Intelligent Systems'
     ];
 
@@ -249,7 +249,7 @@ const projectConfig = {
     customDescriptions: {
         'voiceagent': 'A cloud-first voice-enabled AI agent that handles real estate inquiries over phone calls. Features speech recognition, natural conversation with LLM, semantic property search, and persistent user memory.',
         'Ai_diagnostic_system': 'Production-grade ML pipeline for preliminary medical diagnosis based on patient symptoms. Features robust MLOps practices with experiment tracking and model deployment.',
-        'expense_tracker': 'Full-stack expense tracking application with authentication, budgeting, category management, and AI-powered spending insights.',
+        'expense_tracker': 'AI-enhanced expense tracking application with authentication, budgeting, category management, and intelligent spending insights.',
         'TradeTrack': 'A trading portfolio tracker for monitoring investments and analyzing market performance.',
         'SprintSensev1': 'An AI-powered project management tool that helps teams track sprints, analyze productivity, and optimize workflows with intelligent insights.'
     },

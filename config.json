@@ -27,7 +27,7 @@
             "date": "2025",
             "title": "AI/ML Developer",
             "subtitle": "Web Applications & ML Systems",
-            "description": "Built full-stack applications including expense trackers with AI insights, medical diagnosis ML pipelines with ZenML/MLflow, and trading portfolio management tools.",
+            "description": "Built AI-integrated applications including expense trackers with AI insights, medical diagnosis ML pipelines with ZenML/MLflow, and trading portfolio management tools.",
             "tags": [
                 "React",
                 "Node.js",
@@ -107,7 +107,7 @@
             },
             {
                 "icon": "code",
-                "text": "Full-Stack Developer"
+                "text": "AI & ML Specialist"
             }
         ]
     }
